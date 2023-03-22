@@ -10,6 +10,10 @@ export default {
 </script>
 
 <style>
+*{
+  font-family: 'Ubuntu Mono';  
+}
+
 body {
   background-image: url('@/assets//img/ubuntu-wallpaper.jpg');
   background-repeat: no-repeat;

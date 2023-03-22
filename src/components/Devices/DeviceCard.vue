@@ -3,11 +3,12 @@
         <div class="bar__buttons">
             <button id="cancel__button" @click="handleCancel">Cancel</button>
             <span style="color: white;">Details</span>
-            <!-- <button id="connect__button" ref="connect__button" @click="connectToDevice">Connect</button> -->
-            <button id="connect__button" ref="connect__button">Connect</button>
+            <button id="connect__button" ref="connect__button" @click="connectToDevice">Connect</button>
+            <!-- <button id="connect__button" ref="connect__button">Connect</button> -->
         </div>
 
-        <div id="devices__interfaces" >
+        <div v-show="!isConnecting">
+            <div id="devices__interfaces" >
             <span style="width: 30%; font-size: 22px;"> <strong>Interfaces</strong></span>
             <div class="interfaces__table">
                 <label v-for="(int, index) in device.interfaces" :key="index" class="interface"> 
@@ -18,18 +19,26 @@
             </div>
         </div>
 
-        <div v-if="ip_address">
-            <h1><strong>IP ADDRESS</strong></h1>
-            <span>{{ ip_address }}</span>
+            <div v-if="ip_address">
+                <h1><strong>IP ADDRESS</strong></h1>
+                <span>{{ ip_address }}</span>
+            </div>
         </div>
-        
+
+        <div style="height: 85%; display: flex; align-items: center; justify-content: center;" v-show="isConnecting">
+            <Loader v-show="isConnecting"/>
+        </div>
+
+
     </section>
 </template>
 
 <script>
+import Loader from '../Loaders/Loader.vue';
 export default {
     name: 'DeviceCard',
     el: 'DeviceCard',
+    components: {Loader},
     props: {
         device: {
             type: Object, 
@@ -38,7 +47,8 @@ export default {
     data() {
         return {
             interfaces: undefined,
-            ip_address: undefined
+            ip_address: undefined,
+            isConnecting: false
         }
     },
     methods: {
@@ -61,8 +71,9 @@ export default {
 
         connectToDevice() {
             if(!this.ip_address) return;
+            this.isConnecting = true;
             const xhr = new XMLHttpRequest();
-                xhr.open("GET", `http://192.168.0.137:8000/startConnection?ip=${this.ip_address}&user=admin&password=pass&enablep=\n`);
+                xhr.open("GET", `http://${this.$store.state.serverIp}:8000/startConnection?ip=${this.ip_address}&user=admin&password=pass&enablep=\n`);
                 xhr.send();
                 xhr.responseType = "json";
                 xhr.onload = () => {
@@ -71,6 +82,7 @@ export default {
                         console.log(this.device)
                         if(res) {
                             this.$store.commit('setCurrentDevice', this.device);
+                            this.isConnecting = false;
                             this.$router.push({name: 'Terminal'});
                         }
                     } 
@@ -154,6 +166,9 @@ input[type=radio] {
     height: 15px;
     width: 15px;
     background-color: #eee;
+}
+
+.loader {
 }
 
 </style>

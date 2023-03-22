@@ -3,7 +3,7 @@
         <div id="terminal">
             <section id="terminal__bar">          
             <div id="bar__buttons">            
-                <button class="bar__button" id="bar__button--exit">&#10005;</button>            
+                <button class="bar__button" id="bar__button--exit" @click="endConnection()">&#10005;</button>            
             </div>          
             </section>        
             <section id="terminal__body">          
@@ -40,26 +40,24 @@ export default {
 
         endConnection() {
           const xhr = new XMLHttpRequest();
-            xhr.open("GET", `http://192.168.0.137:8000/endConnection\n`);
+            xhr.open("GET", `http://${this.$store.state.serverIp}:8000/endConnection\n`);
             xhr.send();
             xhr.responseType = "json";
             xhr.onload = () => {
             if (xhr.readyState == 4 && xhr.status == 200) {
-              const res = xhr.response.msg;
-              if(res) {
                 this.$store.state.currentDevice = undefined;
                 this.$router.push({name: 'Devices'});
-              }
-            } 
-            else 
-              console.log(`Error: ${xhr.status}`);
+            }
+            // } 
+            // else 
+            //   console.log(`Error: ${xhr.status}`);
             };
         },
 
         enterPrompt(e) {
             if(e.code == 'Enter') {
                 const xhr = new XMLHttpRequest();
-                xhr.open("POST", `http://192.168.0.137:8000/sendCommand/`, true);
+                xhr.open("POST", `http://${this.$store.state.serverIp}:8000/sendCommand/`, true);
                 xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
                 const data = JSON.stringify({command: this.prompt})
                 xhr.responseType = "json";
@@ -88,21 +86,21 @@ export default {
         this.$el.querySelector("#terminal__input").addEventListener('keydown', (e) => this.enterPrompt(e))
         this.$refs.input.style.width = `${(this.prompt.length * 8)}px`;
     },
-    unmounted() {
-      const xhr = new XMLHttpRequest();
-            xhr.open("GET", `http://148.239.110.73:8000/endConnection\n`);
-            xhr.send();
-            xhr.responseType = "json";
-            xhr.onload = () => {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                const data = xhr.response;
-                console.log(data);
-            } 
-            else {
-                console.log(`Error: ${xhr.status}`);
-                }
-            };
-    },
+    // unmounted() {
+    //   const xhr = new XMLHttpRequest();
+    //         xhr.open("GET", `http://${this.$store.state.serverIp}:8000/endConnection\n`);
+    //         xhr.send();
+    //         xhr.responseType = "json";
+    //         xhr.onload = () => {
+    //         if (xhr.readyState == 4 && xhr.status == 200) {
+    //             const data = xhr.response;
+    //             console.log(data);
+    //         } 
+    //         else {
+    //             console.log(`Error: ${xhr.status}`);
+    //             }
+    //         };
+    // },
     watch: {
         prompt(newValue) {
             this.$refs.input.style.width = `${(newValue.length * 8)}px`;

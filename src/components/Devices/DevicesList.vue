@@ -8,14 +8,13 @@
 <script>
 import Device from './Device.vue';
 import DeviceCard from './DeviceCard.vue';
-import devices from '@/example';
 export default {
     name: 'DevicesLisg',
     components: {Device, DeviceCard},
     data() {
         return {
-            // devices: this.$store.state.devices,
-            devices: devices,
+            devices: this.$store.state.devices,
+            // devices: devices,
             device: undefined,
             isShowing: false
         }

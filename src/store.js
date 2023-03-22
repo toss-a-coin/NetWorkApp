@@ -1,10 +1,12 @@
 import { createStore } from 'vuex';
+// import devices from './example';
 
 const store = createStore({
     state () {
       return {
         devices: undefined,
-        currentDevice: undefined
+        currentDevice: undefined,
+        serverIp: undefined
       }
     },
     getters: {
@@ -33,6 +35,10 @@ const store = createStore({
         setCurrentDevice(state, device) {
           state.currentDevice = device;
         },
+
+        setServerIp(state, data) {
+          state.serverIp = data;
+        }
     },
 
     

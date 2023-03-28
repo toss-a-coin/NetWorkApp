@@ -40,7 +40,7 @@ export default {
 
         endConnection() {
           const xhr = new XMLHttpRequest();
-            xhr.open("GET", `http://${this.$store.state.serverIp}:8000/endConnection\n`);
+            xhr.open("GET", `https://${this.$store.state.serverIp}:8000/endConnection\n`);
             xhr.send();
             xhr.responseType = "json";
             xhr.onload = () => {
@@ -57,7 +57,7 @@ export default {
         enterPrompt(e) {
             if(e.code == 'Enter') {
                 const xhr = new XMLHttpRequest();
-                xhr.open("POST", `http://${this.$store.state.serverIp}:8000/sendCommand/`, true);
+                xhr.open("POST", `https://${this.$store.state.serverIp}:8000/sendCommand/`, true);
                 xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
                 const data = JSON.stringify({command: this.prompt})
                 xhr.responseType = "json";
@@ -88,7 +88,7 @@ export default {
     },
     // unmounted() {
     //   const xhr = new XMLHttpRequest();
-    //         xhr.open("GET", `http://${this.$store.state.serverIp}:8000/endConnection\n`);
+    //         xhr.open("GET", `https://${this.$store.state.serverIp}:8000/endConnection\n`);
     //         xhr.send();
     //         xhr.responseType = "json";
     //         xhr.onload = () => {

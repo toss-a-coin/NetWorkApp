@@ -73,7 +73,7 @@ export default {
             if(!this.ip_address) return;
             this.isConnecting = true;
             const xhr = new XMLHttpRequest();
-                xhr.open("GET", `http://${this.$store.state.serverIp}:8000/startConnection?ip=${this.ip_address}&user=admin&password=pass&enablep=\n`);
+                xhr.open("GET", `https://${this.$store.state.serverIp}:8000/startConnection?ip=${this.ip_address}&user=${process.env.VUE_APP_USER}&password=${process.env.VUE_APP_PASSWORD}&enablep=${process.env.VUE_APP_EN_PASSWORD}\n`);
                 xhr.send();
                 xhr.responseType = "json";
                 xhr.onload = () => {

@@ -44,8 +44,7 @@ export default {
             this.loading = true;
             const xhr = new XMLHttpRequest();
             this.$store.commit('setServerIp', this.serverIP);
-            // xhr.open("GET", `http://148.239.114.111:8000/startConnection?ip=${this.inputValue}&user=admin&password=pass&enablep=\n`);
-            xhr.open("GET", `https://${this.serverIP}:8000/updateDevicesList?initialRouter=${this.initialIP}&user=admin&password=pass&enablep=admin\n`);
+            xhr.open("GET", `https://${this.serverIP}:8000/updateDevicesList?initialRouter=${this.initialIP}&user=${process.env.VUE_APP_USER}&password=${process.env.VUE_APP_PASSWORD}&enablep=${process.env.VUE_APP_EN_PASSWORD}\n`);
             xhr.send();
             xhr.responseType = "json";
             xhr.onload = () => {

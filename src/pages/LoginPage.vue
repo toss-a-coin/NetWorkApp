@@ -45,7 +45,7 @@ export default {
             const xhr = new XMLHttpRequest();
             this.$store.commit('setServerIp', this.serverIP);
             // xhr.open("GET", `http://148.239.114.111:8000/startConnection?ip=${this.inputValue}&user=admin&password=pass&enablep=\n`);
-            xhr.open("GET", `http://${this.serverIP}:8000/updateDevicesList?initialRouter=${this.initialIP}&user=admin&password=pass&enablep=\n`);
+            xhr.open("GET", `http://${this.serverIP}:8000/updateDevicesList?initialRouter=${this.initialIP}&user=admin&password=pass&enablep=pass\n`);
             xhr.send();
             xhr.responseType = "json";
             xhr.onload = () => {

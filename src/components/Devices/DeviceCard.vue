@@ -70,10 +70,10 @@ export default {
         },
 
         connectToDevice() {
-            if(!this.ip_address) return;
+            if(!this.ip_address || this.isConnecting) return;
             this.isConnecting = true;
             const xhr = new XMLHttpRequest();
-                xhr.open("GET", `http://${this.$store.state.serverIp}:8000/startConnection?ip=${this.ip_address}&user=admin&password=pass&enablep=\n`);
+                xhr.open("GET", `http://${this.$store.state.serverIp}:8000/startConnection?ip=${this.ip_address}&user=admin&password=pass&enablep=pass\n`);
                 xhr.send();
                 xhr.responseType = "json";
                 xhr.onload = () => {

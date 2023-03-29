@@ -9,11 +9,11 @@
             <section id="terminal__body">          
             <div id="terminal__prompt">
                 <div v-for="(data, index) in history" :key="index" >
-                  <span class="terminal__prompt--user">{{device.hostname}}#</span>            
+                  <span class="terminal__prompt--user">{{ userHistory[index] }}</span>            
                     <span style="color:white; white-space: pre-wrap;"> {{ data }}</span>
                 </div>      
                 <div>
-                    <span class="terminal__prompt--user">{{device.hostname}}#</span>            
+                    <span class="terminal__prompt--user">{{device.hostname}}{{ mode }}</span>            
                     <input id="terminal__input" ref="input" v-model="prompt"> 
                 </div>      
             </div>  
@@ -29,7 +29,9 @@ export default {
     data() {
         return {
             device: this.$store.state.currentDevice,
+            mode: "#",
             prompt: "",
+            userHistory: [],
             history: []
         }
     },
@@ -64,8 +66,10 @@ export default {
                 xhr.onload = () => {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                   const data = xhr.response;
-                  console.log(data);
-                  this.history.push(this.prompt + data.msg);
+                  const filteredData = data.msg.split(this.device.hostname);
+                  this.history.push(this.prompt + filteredData[0]);
+                  this.userHistory.push(`${this.device.hostname}${this.mode}`);
+                  this.mode = filteredData[1];
                 } 
                 else 
                   console.log(`Error: ${xhr.status}`);
